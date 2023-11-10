@@ -55,7 +55,7 @@ public class ProjectService : IProjectService
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
         if (project is null)
-            throw new EmployeeNotFoundException();
+            throw new ProjectNotFoundException();
         return project;
     }
 
@@ -65,7 +65,7 @@ public class ProjectService : IProjectService
     {
         var project = await _dbContext.Projects.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         if (project is null)
-            throw new EmployeeNotFoundException();
+            throw new ProjectNotFoundException();
         project.Name = updateProjectDto.Name;
         project.Priority = updateProjectDto.Priority;
         project.StartDate = updateProjectDto.StartDate;
@@ -78,11 +78,11 @@ public class ProjectService : IProjectService
 
     public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-        if (employee is null)
+        var project = await _dbContext.Projects.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        if (project is null)
             throw new ProjectNotFoundException();
 
-        _dbContext.Employees.Remove(employee);
+        _dbContext.Projects.Remove(project);
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 

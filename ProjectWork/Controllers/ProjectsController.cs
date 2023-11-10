@@ -72,18 +72,6 @@ public class ProjectsController : Controller
             if (addProjectForm is null)
                 return RedirectToAction(nameof(Index));
 
-            if (!ModelState.IsValid)
-            {
-                var employees = await _employeeService.GetAllAsync(cancellationToken);
-                var viewModel = new AddProjectViewModel
-                {
-                    EmployeesListItems = employees.Select(x =>
-                            new SelectListItem(x.FullName(), x.Id.ToString()))
-                        .ToList(),
-                };
-                return View(viewModel);
-            }
-
             var createProjectDto = _mapper.Map<CreateProjectDto>(addProjectForm);
             var newProjectId = await _projectService.CreateAsync(createProjectDto, cancellationToken);
 
@@ -112,12 +100,6 @@ public class ProjectsController : Controller
                 ExecutiveCompanyName = project.ExecutiveCompanyName
             };
             return View(viewModel);
-            //var project = await _projectService.GetByIdAsync(id, cancellationToken);
-            // var viewModel = new EditProjectViewModel
-            // {
-            //     Project = project,
-            // };
-            // return View(viewModel);
         }
         catch (ProjectNotFoundException)
         {

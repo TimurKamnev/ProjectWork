@@ -6,7 +6,4 @@ public class SortProjectDto
 {
     public SortProjectEnum NameSort { get;  set; }
     public SortProjectEnum PrioritySort { get; set; }
-
-    
-    
 }
